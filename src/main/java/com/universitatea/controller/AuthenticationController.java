@@ -21,9 +21,8 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDTO input) {
-        authenticationService.signup(input);
-        return ResponseEntity.ok("Successful registration");
+    public ResponseEntity<String> register(@RequestBody UserDTO input) {
+        return ResponseEntity.ok(authenticationService.signup(input));
     }
 
     @PostMapping("/login")
