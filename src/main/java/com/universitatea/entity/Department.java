@@ -1,5 +1,6 @@
 package com.universitatea.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +20,10 @@ public class Department {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty;
+
 }

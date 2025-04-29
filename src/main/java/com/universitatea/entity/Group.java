@@ -1,5 +1,6 @@
 package com.universitatea.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.universitatea.prototype.Prototype;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,35 +28,24 @@ public class Group implements Prototype<Group> {
     @Column(name = "specialization", nullable = false)
     private String specialization;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "faculty_id", nullable = false)
+    private Faculty faculty;
+
     // Constructor privat pentru Builder
     private Group(GroupBuilder builder) {
         this.groupCode = builder.groupCode;
         this.year = builder.year;
         this.specialization = builder.specialization;
+        this.faculty = builder.faculty;
     }
 
-    // Getter methods
-    public Long getId() {
-        return id;
-    }
-
-    public String getGroupCode() {
-        return groupCode;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    // Builder class
     public static class GroupBuilder {
         private String groupCode;
         private Integer year;
         private String specialization;
+        private Faculty faculty;
 
         public GroupBuilder setGroupCode(String groupCode) {
             this.groupCode = groupCode;
@@ -72,14 +62,18 @@ public class Group implements Prototype<Group> {
             return this;
         }
 
+        public GroupBuilder setFaculty(Faculty faculty) {
+            this.faculty = faculty;
+            return this;
+        }
+
         public Group build() {
-            if (groupCode == null || year == null || specialization == null) {
-                throw new IllegalStateException("All fields must be set");
+            if (groupCode == null || year == null || specialization == null || faculty == null) {
+                throw new IllegalStateException("All fields must be set, including faculty");
             }
             return new Group(this);
         }
     }
-
 
     // Prototype
     @Override
@@ -88,8 +82,7 @@ public class Group implements Prototype<Group> {
         cloned.setGroupCode(this.groupCode);
         cloned.setYear(this.year);
         cloned.setSpecialization(this.specialization);
+        cloned.setFaculty(this.faculty);
         return cloned;
     }
 }
-
-
