@@ -8,4 +8,6 @@ import java.util.List;
 public interface GroupService {
     Group cloneAndUpdateGroup(Long originalGroupId, GroupDTO updatedData);
     List<GroupDTO> getAllGroups();
+    Group cloneGroup(Long originalGroupId);
+    Group getGroup(Long groupId);
 }

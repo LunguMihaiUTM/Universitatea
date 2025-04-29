@@ -1,7 +1,9 @@
 package com.universitatea.service.impl;
 
+import com.universitatea.ResourceNotFoundException;
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;
+import com.universitatea.entity.Group;
 import com.universitatea.entity.Professor;
 import com.universitatea.entity.Student;
 import com.universitatea.entity.User;
@@ -9,9 +11,8 @@ import com.universitatea.repository.ProfessorRepository;
 import com.universitatea.repository.StudentRepository;
 import com.universitatea.repository.UserRepository;
 import com.universitatea.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
+// Singleton
 public class UserServiceImpl implements UserService {
 
     private static UserServiceImpl instance;
@@ -33,26 +34,28 @@ public class UserServiceImpl implements UserService {
         return instance;
     }
 
-    public Student updateStudent(Long userId, StudentDTO studentDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Student student = studentRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Student not found"));
+    public StudentDTO updateStudent(Long userId, StudentDTO studentDTO) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Student student = studentRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         student.setFirstName(studentDTO.getFirstName());
         student.setLastName(studentDTO.getLastName());
-        student.setBirthDate(studentDTO.getBirthDate());
 
-        return studentRepository.save(student);
+        studentRepository.save(student);
+
+        return studentDTO;
     }
 
-    public Professor updateProfessor(Long userId, ProfessorDTO professorDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Professor professor = professorRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Professor not found"));
+    public ProfessorDTO updateProfessor(Long userId, ProfessorDTO professorDTO) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Professor professor = professorRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Professor not found"));
 
         professor.setFirstName(professorDTO.getFirstName());
         professor.setLastName(professorDTO.getLastName());
         professor.setType(professorDTO.getType());
 
-        return professorRepository.save(professor);
+        professorRepository.save(professor);
+        return professorDTO;
     }
 }
 
