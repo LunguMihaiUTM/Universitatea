@@ -1,5 +1,6 @@
 insert into groups (id, group_code, year, specialization, faculty_id) values
-                                                                          (nextval('group_id_seq'), 'TI-222', 1, 'Computer Science', 1),
-                                                                          (nextval('group_id_seq'), 'TI-222', 2, 'Software Engineering', 1),
-                                                                          (nextval('group_id_seq'), 'TI-221', 3, 'Mechanical Eng', 2),
-                                                                          (nextval('group_id_seq'), 'TI-221', 4, 'Finance', 3);
+                                                                          (nextval('group_id_seq'), 'SI-221', 3, 'Știința Datelor', 1),
+                                                                          (nextval('group_id_seq'), 'TI-222', 3, 'Automatică și Informatică', 1),
+                                                                          (nextval('group_id_seq'), 'CI-211', 4, 'Calculatoare și Rețele', 1),
+                                                                          (nextval('group_id_seq'), 'EA-211', 4, 'Electronica Aplicată', 1),
+                                                                          (nextval('group_id_seq'), 'IA-222', 3, 'Informatica Aplicată', 1);

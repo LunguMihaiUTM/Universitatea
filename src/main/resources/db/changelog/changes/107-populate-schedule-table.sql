@@ -1,3 +1,5 @@
 insert into schedule (id, course_id, group_id, day_of_week, start_time, end_time, lecture_type) values
-                                                                                                    (nextval('schedule_id_seq'), 1, 1, 'Monday', '10:00', '12:00', 'Lecture'),
-                                                                                                    (nextval('schedule_id_seq'), 2, 2, 'Wednesday', '14:00', '16:00', 'Seminar');
+                                                                                                    (nextval('schedule_id_seq'), 1, 1, 'Luni', '10:00', '12:00', 'Lecture'),
+                                                                                                    (nextval('schedule_id_seq'), 2, 2, 'Miercuri', '14:00', '16:00', 'Seminar'),
+                                                                                                    (nextval('schedule_id_seq'), 3, 3, 'Marți', '08:00', '10:00', 'Lecture'),
+                                                                                                    (nextval('schedule_id_seq'), 4, 4, 'Vineri', '11:00', '13:00', 'Lecture');
