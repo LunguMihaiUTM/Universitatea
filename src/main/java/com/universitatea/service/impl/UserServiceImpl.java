@@ -1,9 +1,8 @@
 package com.universitatea.service.impl;
 
-import com.universitatea.ResourceNotFoundException;
+import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;
-import com.universitatea.entity.Group;
 import com.universitatea.entity.Professor;
 import com.universitatea.entity.Student;
 import com.universitatea.entity.User;

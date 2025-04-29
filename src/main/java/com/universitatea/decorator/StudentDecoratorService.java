@@ -1,5 +1,6 @@
 package com.universitatea.decorator;
 
+import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.entity.Student;
 import com.universitatea.repository.StudentCourseRepository;
 import com.universitatea.repository.StudentRepository;
@@ -18,7 +19,7 @@ public class StudentDecoratorService {
 
     public Map<String, BigDecimal> getAllGrades(Long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         StudentComponent base = new BasicStudent(student, courseRepository);
         return base.getGrades();
@@ -26,7 +27,7 @@ public class StudentDecoratorService {
 
     public Map<String, BigDecimal> getFilteredGrades(Long studentId, BigDecimal threshold) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         StudentComponent base = new BasicStudent(student, courseRepository);
         StudentComponent decorated = new FilteredStudent(base, threshold);
@@ -36,7 +37,7 @@ public class StudentDecoratorService {
 
     public String getStudentName(Long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
         return student.getFirstName() + " " + student.getLastName();
     }

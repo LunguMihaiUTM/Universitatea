@@ -1,6 +1,6 @@
 package com.universitatea.adapter;
 
-import com.universitatea.ResourceNotFoundException;
+import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.dto.GroupDTO;
 import com.universitatea.entity.Course;
 import com.universitatea.entity.Student;

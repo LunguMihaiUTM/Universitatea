@@ -1,5 +1,6 @@
 package com.universitatea.facade;
 
+import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.entity.Course;
 import com.universitatea.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,6 @@ public class CourseValidationService {
 
     public Course validateCourse(Long courseId) {
         return courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
     }
 }

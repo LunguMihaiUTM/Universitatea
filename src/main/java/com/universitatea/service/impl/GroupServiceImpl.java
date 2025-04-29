@@ -1,12 +1,11 @@
 package com.universitatea.service.impl;
 
-import com.universitatea.ResourceNotFoundException;
+import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.dto.GroupDTO;
 import com.universitatea.entity.Faculty;
 import com.universitatea.entity.Group;
 import com.universitatea.repository.FacultyRepository;
 import com.universitatea.repository.GroupRepository;
-import com.universitatea.repository.UserRepository;
 import com.universitatea.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
