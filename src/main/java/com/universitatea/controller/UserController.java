@@ -24,12 +24,12 @@ public class UserController {
     }
 
     @PutMapping("/update-student/{userId}")
-    public Student updateStudent(@PathVariable Long userId, @RequestBody StudentDTO studentDTO) {
+    public StudentDTO updateStudent(@PathVariable Long userId, @RequestBody StudentDTO studentDTO) {
         return userService.updateStudent(userId, studentDTO);
     }
 
     @PutMapping("/update-professor/{userId}")
-    public Professor updateProfessor(@PathVariable Long userId, @RequestBody ProfessorDTO professorDTO) {
+    public ProfessorDTO updateProfessor(@PathVariable Long userId, @RequestBody ProfessorDTO professorDTO) {
         return userService.updateProfessor(userId, professorDTO);
     }
 }

@@ -1,6 +1,7 @@
 package com.universitatea.controller;
 
 import com.universitatea.adapter.GradeImportService;
+import com.universitatea.dto.StudentCourseDTO;
 import com.universitatea.entity.StudentCourse;
 import com.universitatea.facade.GradingFacade;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class GradeController {
 
 
     @PostMapping("/import-from-external")
-    public List<StudentCourse> importGrades() {
+    public List<StudentCourseDTO> importGrades() {
         return gradeImportService.importFromExternal();
     }
 

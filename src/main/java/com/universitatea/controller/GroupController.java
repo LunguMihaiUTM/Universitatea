@@ -16,13 +16,19 @@ public class GroupController {
 
     private final GroupService groupService;
 
-    @PostMapping("/clone")
+    @PostMapping("/clone-and-updated")
     public ResponseEntity<Group> cloneGroup(@RequestParam Long groupId, @RequestBody GroupDTO groupDTO) {
         return ResponseEntity.ok(groupService.cloneAndUpdateGroup(groupId, groupDTO));
+    }
+
+    @PostMapping("/clone")
+    public ResponseEntity<Group> cloneGroup(@RequestParam Long originalGroupId){
+        return ResponseEntity.ok(groupService.cloneGroup(originalGroupId));
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<GroupDTO>> getAllGroups() {
         return ResponseEntity.ok(groupService.getAllGroups());
     }
+
 }
