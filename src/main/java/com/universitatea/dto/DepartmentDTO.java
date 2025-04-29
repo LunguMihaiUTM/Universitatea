@@ -1,5 +1,6 @@
 package com.universitatea.dto;
 
+import com.universitatea.entity.Faculty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentDTO {
+public class DepartmentDTO {
+
     private Long id;
-    private String firstName;
-    private String lastName;
-    private GroupDTO group;
+    private String name;
+    private Faculty faculty;
 }
