@@ -14,6 +14,17 @@ spring:
   liquibase:
     change-log: db/changelog/db.changelog-master.yaml
     enabled: true
+  mail:
+    host: smtp.mail.ru
+    port: 587
+    username: orange.preorder@mail.ru
+    password: hcWZK4yWxKzNTLc67AnB
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 jwt.secret: 470d677417ed8f552f69e14d363850291654e8484161fd171a37676e848f7ffb
