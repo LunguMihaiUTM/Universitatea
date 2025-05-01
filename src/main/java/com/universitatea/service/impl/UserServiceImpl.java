@@ -1,5 +1,6 @@
 package com.universitatea.service.impl;
 
+import com.universitatea.dto.UserDTO;
 import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;

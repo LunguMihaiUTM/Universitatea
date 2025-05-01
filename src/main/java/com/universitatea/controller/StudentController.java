@@ -14,6 +14,7 @@ public class StudentController {
 
     private final StudentDecoratorService studentDecoratorService;
 
+
     @GetMapping("/{id}/grades")
     public Map<String, BigDecimal> getAllGrades(@PathVariable Long id) {
         return studentDecoratorService.getAllGrades(id);
