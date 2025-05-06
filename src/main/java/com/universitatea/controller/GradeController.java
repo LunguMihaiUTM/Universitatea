@@ -2,21 +2,20 @@ package com.universitatea.controller;
 
 import com.universitatea.adapter.GradeImportService;
 import com.universitatea.dto.StudentCourseDTO;
-import com.universitatea.dto.UserDTO;
 import com.universitatea.entity.User;
+import com.universitatea.enums.Role;
 import com.universitatea.facade.GradingFacade;
 import com.universitatea.strategy.AdminGradeDisplayStrategy;
 import com.universitatea.strategy.ProfessorGradeDisplayStrategy;
 import com.universitatea.strategy.StudentGradeDisplayStrategy;
 import com.universitatea.util.TokenExtractServiceImpl;
 import com.universitatea.util.UserExtractServiceImpl;
-import com.universitatea.util.UserServiceUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -42,13 +41,24 @@ public class GradeController {
     }
 
     @PostMapping("/assign")
+    @SecurityRequirement(name = "bearerAuth")
     public String assignGrade(
+            @RequestHeader("Authorization") String authHeader,
             @RequestParam Long studentId,
             @RequestParam Long courseId,
             @RequestParam BigDecimal grade,
-            @RequestParam LocalDate examDate) {
+            @RequestParam LocalDate examDate) throws AccessDeniedException {
+
+        String token = tokenExtractService.getToken(authHeader);
+        User user = userExtractService.getUser(token);
+
+        if (user.getRole() != Role.PROFESSOR) {
+            throw new com.universitatea.exception.UnauthorizedRoleException("Access denied: only professors can assign grades.");
+        }
+
         return gradingFacade.assignGradeToStudent(studentId, courseId, grade, examDate);
     }
+
 
 
     @GetMapping("/get-grades")

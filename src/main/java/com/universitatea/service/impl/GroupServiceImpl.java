@@ -26,13 +26,15 @@ public class GroupServiceImpl implements GroupService {
 
         Group cloned = original.clone();
 
-        Faculty faculty = facultyRepository.findById(updatedData.getFaculty().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Faculty with ID " + updatedData.getFaculty().getId() + " not found"));
+        Faculty faculty = updatedData.getFaculty() != null ?
+                facultyRepository.findById(updatedData.getFaculty().getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Faculty with ID " + updatedData.getFaculty().getId() + " not found"))
+                : original.getFaculty();
 
-        if (updatedData.getGroupCode() != null) cloned.setGroupCode(updatedData.getGroupCode());
-        if (updatedData.getYear() != null) cloned.setYear(updatedData.getYear());
-        if (updatedData.getSpecialization() != null) cloned.setSpecialization(updatedData.getSpecialization());
-        if (updatedData.getFaculty() != null && faculty != null) cloned.setFaculty(updatedData.getFaculty());
+        cloned.setGroupCode(updatedData.getGroupCode() != null ? updatedData.getGroupCode() : original.getGroupCode());
+        cloned.setYear(updatedData.getYear() != null ? updatedData.getYear() : original.getYear());
+        cloned.setSpecialization(updatedData.getSpecialization() != null ? updatedData.getSpecialization() : original.getSpecialization());
+        cloned.setFaculty(faculty);
 
         return groupRepository.save(cloned);
     }
