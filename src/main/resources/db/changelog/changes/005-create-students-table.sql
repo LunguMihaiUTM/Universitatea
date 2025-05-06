@@ -2,7 +2,7 @@ create table students (
                           id               bigint       not null primary key,
                           first_name       varchar(255) ,
                           last_name        varchar(255) ,
-                          registration_number varchar(50) ,
+--                           registration_number varchar(50) ,
                           birth_date       date         ,
                           group_id         bigint       ,
                           user_id          bigint       unique,
