@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UTM Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="login-box">
+        <div class="left">
+            <img src="/img/utm-logo.png" alt="UTM Logo">
+        </div>
+        <div class="right">
+            <h2>Sign Up</h2>
+            <form id="register-form">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Email" required>
+
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Password" required>
+
+                <label>Role</label>
+                <select id="role" required>
+                    <option value="STUDENT">Student</option>
+                    <option value="TEACHER">Teacher</option>
+                </select>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit">Register</button>
+                </div>
+
+                <div class="signup-redirect">
+                    <p>Already have an account?</p>
+                    <a href="/login.html" class="btn-secondary">Sign In</a>
+                </div>
+                <p id="register-message" style="color: green;"></p>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/register.js"></script>
+</body>
+</html>

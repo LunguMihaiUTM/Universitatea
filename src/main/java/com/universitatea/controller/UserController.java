@@ -32,4 +32,5 @@ public class UserController {
     public ProfessorDTO updateProfessor(@PathVariable Long userId, @RequestBody ProfessorDTO professorDTO) {
         return userService.updateProfessor(userId, professorDTO);
     }
+
 }
