@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editare profil student</title>
+    <link rel="stylesheet" href="/css/student-profile-edit.css" />
+</head>
+<body>
+<div class="profile-edit-container">
+    <h2>Editare profil</h2>
+    <form id="profile-edit-form">
+        <label for="firstName">Prenume:</label>
+        <input type="text" id="firstName" name="firstName" required />
+
+        <label for="lastName">Nume:</label>
+        <input type="text" id="lastName" name="lastName" required />
+
+        <button type="submit">Salvează modificările</button>
+        <p id="response-message"></p>
+    </form>
+</div>
+<script src="/js/student-profile-edit.js"></script>
+</body>
+</html>

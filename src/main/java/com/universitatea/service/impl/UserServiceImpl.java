@@ -1,6 +1,8 @@
 package com.universitatea.service.impl;
 
+import com.universitatea.dto.GroupDTO;
 import com.universitatea.dto.UserDTO;
+import com.universitatea.entity.Group;
 import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;
@@ -20,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final ProfessorRepository professorRepository;
+
 
     private UserServiceImpl(UserRepository userRepository, StudentRepository studentRepository, ProfessorRepository professorRepository) {
         this.userRepository = userRepository;
@@ -56,6 +59,15 @@ public class UserServiceImpl implements UserService {
 
         professorRepository.save(professor);
         return professorDTO;
+    }
+
+    public Group mapToGroup(GroupDTO groupDTO) {
+        return Group.builder()
+                .groupCode(groupDTO.getGroupCode())
+                .year(groupDTO.getYear())
+                .faculty(groupDTO.getFaculty())
+                .specialization(groupDTO.getSpecialization())
+                .build();
     }
 }
 

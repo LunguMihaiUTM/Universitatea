@@ -39,7 +39,8 @@ public class StudentGradeDisplayStrategy implements GradeDisplayStrategy {
                 sc.getStudent().getId(),
                 sc.getStudent().getFirstName(),
                 sc.getStudent().getLastName(),
-                null // optional: map group if needed
+                null,
+                null
         );
 
         Professor professor = sc.getCourse().getProfessor();

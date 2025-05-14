@@ -32,6 +32,7 @@ public class AdminGradeDisplayStrategy implements GradeDisplayStrategy {
                 sc.getStudent().getId(),
                 sc.getStudent().getFirstName(),
                 sc.getStudent().getLastName(),
+                null,
                 null
         );
 

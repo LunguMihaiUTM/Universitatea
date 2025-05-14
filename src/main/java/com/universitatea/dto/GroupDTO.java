@@ -1,7 +1,6 @@
 package com.universitatea.dto;
 
 import com.universitatea.entity.Faculty;
-import com.universitatea.entity.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
