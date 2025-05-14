@@ -2,8 +2,6 @@ package com.universitatea.controller;
 
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;
-import com.universitatea.entity.Professor;
-import com.universitatea.entity.Student;
 import com.universitatea.repository.ProfessorRepository;
 import com.universitatea.repository.StudentRepository;
 import com.universitatea.repository.UserRepository;
@@ -32,5 +30,4 @@ public class UserController {
     public ProfessorDTO updateProfessor(@PathVariable Long userId, @RequestBody ProfessorDTO professorDTO) {
         return userService.updateProfessor(userId, professorDTO);
     }
-
 }
