@@ -11,6 +11,7 @@ import com.universitatea.entity.Student;
 import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.repository.ScheduleRepository;
 import com.universitatea.repository.StudentRepository;
+import com.universitatea.service.impl.ScheduleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,9 @@ public class ScheduleController {
     private final CommandInvoker commandInvoker;
     private final StudentRepository studentRepository;
     private final ScheduleRepository scheduleRepository;
+    private final ScheduleServiceImpl scheduleServiceImpl;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> scheduleCourse(@RequestBody ScheduleRequest request) {
         Command command = new ScheduleCourseCommand(scheduleService, request);
         commandInvoker.executeCommand(command);
@@ -43,6 +45,16 @@ public class ScheduleController {
 
         List<Schedule> schedule = scheduleRepository.findByGroup(group);
         return ResponseEntity.ok(schedule);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Schedule> getScheduleById(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleServiceImpl.getScheduleById(id));
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<List<Schedule>> getAllSchedules() {
+        return ResponseEntity.ok(scheduleServiceImpl.getAllSchedules());
     }
 
 }

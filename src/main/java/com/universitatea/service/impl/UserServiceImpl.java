@@ -2,16 +2,11 @@ package com.universitatea.service.impl;
 
 import com.universitatea.dto.GroupDTO;
 import com.universitatea.dto.UserDTO;
-import com.universitatea.entity.Group;
+import com.universitatea.entity.*;
 import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;
-import com.universitatea.entity.Professor;
-import com.universitatea.entity.Student;
-import com.universitatea.entity.User;
-import com.universitatea.repository.ProfessorRepository;
-import com.universitatea.repository.StudentRepository;
-import com.universitatea.repository.UserRepository;
+import com.universitatea.repository.*;
 import com.universitatea.service.UserService;
 
 // Singleton
@@ -22,43 +17,57 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final ProfessorRepository professorRepository;
+    private final GroupRepository groupRepository;
+    private final DepartmentRepository departmentRepository;
 
 
-    private UserServiceImpl(UserRepository userRepository, StudentRepository studentRepository, ProfessorRepository professorRepository) {
+    private UserServiceImpl(UserRepository userRepository, StudentRepository studentRepository, ProfessorRepository professorRepository, GroupRepository groupRepository, DepartmentRepository departmentRepository) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.professorRepository = professorRepository;
+        this.groupRepository = groupRepository;
+        this.departmentRepository = departmentRepository;
     }
 
-    public static UserServiceImpl getInstance(UserRepository userRepository, StudentRepository studentRepository, ProfessorRepository professorRepository) {
+    public static UserServiceImpl getInstance(UserRepository userRepository, StudentRepository studentRepository, ProfessorRepository professorRepository, GroupRepository groupRepository, DepartmentRepository departmentRepository) {
         if (instance == null) {
-            instance = new UserServiceImpl(userRepository, studentRepository, professorRepository);
+            instance = new UserServiceImpl(userRepository, studentRepository, professorRepository, groupRepository, departmentRepository);
         }
         return instance;
     }
 
-    public StudentDTO updateStudent(Long userId, StudentDTO studentDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Student student = studentRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    public StudentDTO updateStudent(Student studentInput) {
+        Student student = studentRepository.findById(studentInput.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
-        student.setFirstName(studentDTO.getFirstName());
-        student.setLastName(studentDTO.getLastName());
+        student.setFirstName(studentInput.getFirstName());
+        student.setLastName(studentInput.getLastName());
+        student.setBirthDate(studentInput.getBirthDate());
+
+        groupRepository.findById(studentInput.getGroup().getId()).orElseThrow(() ->
+                new ResourceNotFoundException("Group not found with id " + studentInput.getGroup().getId()));
+
+        student.setGroup(studentInput.getGroup());
 
         studentRepository.save(student);
-
-        return studentDTO;
+        return mapToStudentDTO(student);
     }
 
-    public ProfessorDTO updateProfessor(Long userId, ProfessorDTO professorDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Professor professor = professorRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Professor not found"));
+    public ProfessorDTO updateProfessor(Professor updatedProfessor) {
+        Professor existingProfessor = professorRepository.findById(updatedProfessor.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Professor not found"));
 
-        professor.setFirstName(professorDTO.getFirstName());
-        professor.setLastName(professorDTO.getLastName());
-        professor.setType(professorDTO.getType());
+        Department department = departmentRepository.findById(updatedProfessor.getDepartment().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found"));
 
-        professorRepository.save(professor);
-        return professorDTO;
+        existingProfessor.setFirstName(updatedProfessor.getFirstName());
+        existingProfessor.setLastName(updatedProfessor.getLastName());
+        existingProfessor.setType(updatedProfessor.getType());
+        existingProfessor.setDepartment(department);
+
+        professorRepository.save(existingProfessor);
+
+        return mapToProfessorDTO(existingProfessor);
     }
 
     public Group mapToGroup(GroupDTO groupDTO) {
@@ -69,5 +78,33 @@ public class UserServiceImpl implements UserService {
                 .specialization(groupDTO.getSpecialization())
                 .build();
     }
+
+    private StudentDTO mapToStudentDTO(Student student){
+
+        GroupDTO groupDTO = GroupDTO.builder()
+                .groupCode(student.getGroup().getGroupCode())
+                .year(student.getGroup().getYear())
+                .faculty(student.getGroup().getFaculty())
+                .specialization(student.getGroup().getSpecialization())
+                .build();
+
+        return StudentDTO.builder()
+                .firstName(student.getFirstName())
+                .lastName(student.getLastName())
+                .birthDate(student.getBirthDate())
+                .id(student.getId())
+                .group(groupDTO)
+                .build();
+    }
+
+    private ProfessorDTO mapToProfessorDTO(Professor professor){
+        return ProfessorDTO.builder()
+                .firstName(professor.getFirstName())
+                .lastName(professor.getLastName())
+                .departmentId(professor.getDepartment().getId())
+                .build();
+
+    }
+
 }
 

@@ -2,9 +2,9 @@ package com.universitatea.controller;
 
 import com.universitatea.dto.ProfessorDTO;
 import com.universitatea.dto.StudentDTO;
-import com.universitatea.repository.ProfessorRepository;
-import com.universitatea.repository.StudentRepository;
-import com.universitatea.repository.UserRepository;
+import com.universitatea.entity.Professor;
+import com.universitatea.entity.Student;
+import com.universitatea.repository.*;
 import com.universitatea.service.UserService;
 import com.universitatea.service.impl.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +17,19 @@ public class UserController {
 
     public UserController(UserRepository userRepository,
                           StudentRepository studentRepository,
-                          ProfessorRepository professorRepository) {
-        this.userService = UserServiceImpl.getInstance(userRepository, studentRepository, professorRepository);
+                          ProfessorRepository professorRepository,
+                          GroupRepository groupRepository,
+                          DepartmentRepository departmentRepository) {
+        this.userService = UserServiceImpl.getInstance(userRepository, studentRepository, professorRepository, groupRepository, departmentRepository);
     }
 
-    @PutMapping("/update-student/{userId}")
-    public StudentDTO updateStudent(@PathVariable Long userId, @RequestBody StudentDTO studentDTO) {
-        return userService.updateStudent(userId, studentDTO);
+    @PutMapping("/update-student")
+    public StudentDTO updateStudent(@RequestBody Student student) {
+        return userService.updateStudent(student);
     }
 
-    @PutMapping("/update-professor/{userId}")
-    public ProfessorDTO updateProfessor(@PathVariable Long userId, @RequestBody ProfessorDTO professorDTO) {
-        return userService.updateProfessor(userId, professorDTO);
+    @PutMapping("/update-professor")
+    public ProfessorDTO updateProfessor(@RequestBody Professor professor) {
+        return userService.updateProfessor(professor);
     }
 }
