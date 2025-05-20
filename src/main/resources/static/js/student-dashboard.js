@@ -7,6 +7,7 @@ function parseJwt(token) {
         return null;
     }
 }
+
 async function loadDashboard() {
     const token = localStorage.getItem("jwt");
     if (!token) {
@@ -14,51 +15,87 @@ async function loadDashboard() {
         window.location.href = "/login.html";
         return;
     }
+
     const decoded = parseJwt(token);
-    const email = decoded?.sub;
-    const usersRes = await fetch("/user/all", {
-        headers: { "Authorization": "Bearer " + token }
-    });
-    const users = await usersRes.json();
-    const user = users.find(u => u.email === email);
-    if (!user) return;
-    const studentRes = await fetch(`/students/by-user-id/${user.id}`, {
-        headers: { "Authorization": "Bearer " + token }
-    });
-    const student = await studentRes.json();
-    document.getElementById("student-name").textContent = student.firstName + " " + student.lastName;
+    const userId = decoded?.userId;
 
-    const scheduleRes = await fetch(`/schedule/by-student/${student.id}`, {
-        headers: { "Authorization": "Bearer " + token }
-    });
-    const schedule = await scheduleRes.json();
-    const days = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică'];
-    const grid = document.getElementById("calendar-grid");
-    grid.innerHTML = "";
-    days.forEach(day => {
-        const col = document.createElement("div");
-        col.className = "day-column";
-        col.innerHTML = `<h4>${day}</h4>`;
-        schedule.filter(e => e.day === day).forEach(ev => {
-            const box = document.createElement("div");
-            box.className = "event";
-            box.textContent = `${ev.subject} (${ev.time})`;
-            col.appendChild(box);
+    if (!userId) {
+        alert("Token invalid: userId lipsă!");
+        return;
+    }
+
+    // 🔎 Obține studentId pe baza userId
+    let studentId;
+    try {
+        const studentRes = await fetch(`/students/by-user-id/${userId}`, {
+            headers: { "Authorization": "Bearer " + token }
         });
-        grid.appendChild(col);
-    });
 
-    const courseRes = await fetch(`/courses/by-student/${student.id}`, {
-        headers: { "Authorization": "Bearer " + token }
-    });
-    const courses = await courseRes.json();
-    const container = document.getElementById("courses-container");
-    container.innerHTML = "";
-    courses.forEach(course => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<strong>${course.name}</strong><p>${course.description || ""}</p>`;
-        container.appendChild(card);
-    });
+        if (!studentRes.ok) throw new Error("Student not found");
+        const student = await studentRes.json();
+        studentId = student.id;
+
+        // Nume afișat
+        const fullName = `${student.firstName} ${student.lastName}`;
+        console.log("🎓 Nume student obținut:", fullName);
+        document.getElementById("student-name").textContent = fullName;
+
+    } catch (err) {
+        console.error("Eroare la obținerea studentului:", err);
+        document.getElementById("student-name").textContent = "Student necunoscut";
+        return;
+    }
+
+    // 🗓️ Obține și afișează orarul
+    try {
+        const scheduleRes = await fetch(`/schedule/by-student/${studentId}`, {
+            headers: { "Authorization": "Bearer " + token }
+        });
+
+        if (!scheduleRes.ok) throw new Error(`Schedule not found (${scheduleRes.status})`);
+        const schedule = await scheduleRes.json();
+
+        const days = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică'];
+        const grid = document.getElementById("calendar-grid");
+        grid.innerHTML = "";
+
+        if (Array.isArray(schedule)) {
+            days.forEach(day => {
+                const col = document.createElement("div");
+                col.className = "day-column";
+                col.innerHTML = `<h4>${day}</h4>`;
+
+                schedule
+                    .filter(ev => ev.dayOfWeek === day)
+                    .sort((a, b) => a.startTime.localeCompare(b.startTime)) // 🟡 sortare după startTime
+                    .forEach(ev => {
+                        const box = document.createElement("div");
+                        box.className = "event";
+
+                        const subjectName = ev.course?.title || "N/A";
+                        const timeRange = `${ev.startTime?.slice(0, 5)} - ${ev.endTime?.slice(0, 5)}`;
+                        const lectureType = ev.lectureType || "";
+
+                        const teacherFirst = ev.course?.professor?.firstName || "";
+                        const teacherLast = ev.course?.professor?.lastName || "";
+                        const teacherName = `${teacherFirst} ${teacherLast}`.trim();
+
+                        box.innerHTML = `${subjectName} (${lectureType}, ${timeRange})<br><small>Prof.: ${teacherName || "N/A"}</small>`;
+                        col.appendChild(box);
+                    });
+
+
+
+
+
+                grid.appendChild(col);
+            });
+        } else {
+            grid.innerHTML = "<p>Nu există orar disponibil.</p>";
+        }
+    } catch (error) {
+        console.error("Eroare la încărcarea orarului:", error);
+    }
 }
-window.onload = loadDashboard;
+
+document.addEventListener("DOMContentLoaded", loadDashboard);

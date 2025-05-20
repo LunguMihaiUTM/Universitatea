@@ -9,7 +9,6 @@ import com.universitatea.dto.StudentDTO;
 import com.universitatea.repository.*;
 import com.universitatea.service.UserService;
 
-// Singleton
 public class UserServiceImpl implements UserService {
 
     private static UserServiceImpl instance;
@@ -19,7 +18,6 @@ public class UserServiceImpl implements UserService {
     private final ProfessorRepository professorRepository;
     private final GroupRepository groupRepository;
     private final DepartmentRepository departmentRepository;
-
 
     private UserServiceImpl(UserRepository userRepository, StudentRepository studentRepository, ProfessorRepository professorRepository, GroupRepository groupRepository, DepartmentRepository departmentRepository) {
         this.userRepository = userRepository;
@@ -36,23 +34,25 @@ public class UserServiceImpl implements UserService {
         return instance;
     }
 
-    public StudentDTO updateStudent(Student studentInput) {
-        Student student = studentRepository.findById(studentInput.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    @Override
+    public StudentDTO updateStudentByUserId(Long userId, Student studentInput) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        Student student = studentRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found for userId: " + userId));
 
         student.setFirstName(studentInput.getFirstName());
         student.setLastName(studentInput.getLastName());
         student.setBirthDate(studentInput.getBirthDate());
 
-        groupRepository.findById(studentInput.getGroup().getId()).orElseThrow(() ->
-                new ResourceNotFoundException("Group not found with id " + studentInput.getGroup().getId()));
-
-        student.setGroup(studentInput.getGroup());
-
         studentRepository.save(student);
+
         return mapToStudentDTO(student);
     }
 
+
+    @Override
     public ProfessorDTO updateProfessor(Professor updatedProfessor) {
         Professor existingProfessor = professorRepository.findById(updatedProfessor.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Professor not found"));
@@ -79,14 +79,16 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private StudentDTO mapToStudentDTO(Student student){
-
-        GroupDTO groupDTO = GroupDTO.builder()
-                .groupCode(student.getGroup().getGroupCode())
-                .year(student.getGroup().getYear())
-                .faculty(student.getGroup().getFaculty())
-                .specialization(student.getGroup().getSpecialization())
-                .build();
+    private StudentDTO mapToStudentDTO(Student student) {
+        GroupDTO groupDTO = null;
+        if (student.getGroup() != null) {
+            groupDTO = GroupDTO.builder()
+                    .groupCode(student.getGroup().getGroupCode())
+                    .year(student.getGroup().getYear())
+                    .faculty(student.getGroup().getFaculty())
+                    .specialization(student.getGroup().getSpecialization())
+                    .build();
+        }
 
         return StudentDTO.builder()
                 .firstName(student.getFirstName())
@@ -97,14 +99,11 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private ProfessorDTO mapToProfessorDTO(Professor professor){
+    private ProfessorDTO mapToProfessorDTO(Professor professor) {
         return ProfessorDTO.builder()
                 .firstName(professor.getFirstName())
                 .lastName(professor.getLastName())
                 .departmentId(professor.getDepartment().getId())
                 .build();
-
     }
-
 }
-

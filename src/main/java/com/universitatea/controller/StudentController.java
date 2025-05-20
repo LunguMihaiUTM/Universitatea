@@ -39,7 +39,9 @@ public class StudentController {
 
     @GetMapping("/{id}/name")
     public String getStudentFullName(@PathVariable Long id) {
-        return studentDecoratorService.getStudentName(id);
+        Student student = studentRepository.findByUserId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+        return student.getFirstName() + " " + student.getLastName();
     }
 
     @GetMapping("/by-user-id/{userId}")
@@ -50,22 +52,25 @@ public class StudentController {
         Student student = studentRepository.findByUser(user)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
-        Group group = student.getGroup();
-        GroupDTO groupDTO = new GroupDTO(
-                group.getGroupCode(),
-                group.getYear(),
-                group.getSpecialization(),
-                group.getFaculty()
-        );
+        GroupDTO groupDTO = null;
+        if (student.getGroup() != null) {
+            Group group = student.getGroup();
+            groupDTO = new GroupDTO(
+                    group.getGroupCode(),
+                    group.getYear(),
+                    group.getSpecialization(),
+                    group.getFaculty()
+            );
+        }
 
         return StudentDTO.builder()
                 .id(student.getId())
                 .firstName(student.getFirstName())
                 .lastName(student.getLastName())
+                .birthDate(student.getBirthDate())
                 .group(groupDTO)
+                .email(student.getUser().getEmail())
                 .build();
     }
 
-
 }
-

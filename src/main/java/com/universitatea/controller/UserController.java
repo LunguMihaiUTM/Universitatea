@@ -23,9 +23,9 @@ public class UserController {
         this.userService = UserServiceImpl.getInstance(userRepository, studentRepository, professorRepository, groupRepository, departmentRepository);
     }
 
-    @PutMapping("/update-student")
-    public StudentDTO updateStudent(@RequestBody Student student) {
-        return userService.updateStudent(student);
+    @PutMapping("/update-student/{userId}")
+    public StudentDTO updateStudent(@PathVariable Long userId, @RequestBody Student studentInput) {
+        return userService.updateStudentByUserId(userId, studentInput);
     }
 
     @PutMapping("/update-professor")

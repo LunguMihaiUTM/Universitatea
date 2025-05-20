@@ -15,7 +15,6 @@ document.getElementById("login-form").addEventListener("submit", async function 
     if (response.ok) {
         const data = await response.json();
         localStorage.setItem("jwt", data.token);
-        alert("Login reușit!");
 
         const decoded = parseJwt(data.token);
         const role = decoded?.role;

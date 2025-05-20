@@ -17,4 +17,5 @@ public class StudentDTO {
     private String lastName;
     private GroupDTO group;
     private LocalDate birthDate;
+    private String email;
 }

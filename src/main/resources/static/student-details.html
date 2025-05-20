@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Detalii student</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/student-dashboard.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="/img/utm-logo.png" alt="UTM Logo" class="utm-logo">
+        </div>
+        <ul class="nav">
+            <li><a href="/student-dashboard.html"><i class="fas fa-home"></i> General</a></li>
+            <li><a href="/student-details.html"><i class="fas fa-user"></i> Detalii student</a></li>
+            <li><a href="/student-grades.html"><i class="fas fa-clipboard-list"></i> Note</a></li>
+            <li><a href="/student-exam-release.html" class="active"><i class="fas fa-check-circle"></i> Performanță înaltă</a></li>
+            <li><a href="/student-exam-denied.html"><i class="fas fa-times-circle"></i> Note insuficiente</a></li>
+            <li><a href="/student-profile-edit.html"><i class="fas fa-edit"></i> Editare profil</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <section class="calendar">
+            <div class="calendar-header">
+                <h3>Detalii student</h3>
+            </div>
+            <div class="student-details-container">
+                <table class="details-table">
+                    <tr>
+                        <th>Prenume</th>
+                        <td id="firstName">...</td>
+                    </tr>
+                    <tr>
+                        <th>Nume de familie</th>
+                        <td id="lastName">...</td>
+                    </tr>
+                    <tr>
+                        <th>Data nașterii</th>
+                        <td id="birthDate">...</td>
+                    </tr>
+                    <tr>
+                        <th>Grupă</th>
+                        <td id="group">...</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td id="email">...</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="/js/student-details.js"></script>
+</body>
+</html>

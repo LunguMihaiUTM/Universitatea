@@ -7,6 +7,7 @@ function parseJwt(token) {
         return null;
     }
 }
+
 window.onload = async function () {
     const token = localStorage.getItem("jwt");
     if (!token) {
@@ -14,29 +15,44 @@ window.onload = async function () {
         window.location.href = "/login.html";
         return;
     }
-    const decoded = parseJwt(token);
-    const email = decoded?.sub;
-    const usersRes = await fetch("/user/all", {
-        headers: { "Authorization": "Bearer " + token }
-    });
-    const users = await usersRes.json();
-    const user = users.find(u => u.email === email);
-    if (!user) return;
-    const studentRes = await fetch(`/students/by-user-id/${user.id}`, {
-        headers: { "Authorization": "Bearer " + token }
-    });
-    const student = await studentRes.json();
-    document.getElementById("firstName").value = student.firstName;
-    document.getElementById("lastName").value = student.lastName;
 
-    document.getElementById("profile-edit-form").addEventListener("submit", async function(e) {
+    const decoded = parseJwt(token);
+    const userId = decoded?.userId;
+    if (!userId) {
+        console.error("Token invalid: lipsește userId");
+        return;
+    }
+
+    const studentRes = await fetch(`/students/by-user-id/${userId}`, {
+        headers: { "Authorization": "Bearer " + token }
+    });
+
+    if (!studentRes.ok) {
+        console.error("❌ Student inexistent:", await studentRes.text());
+        return;
+    }
+
+    const student = await studentRes.json();
+
+    // ✅ Precompletare
+    if (student.firstName) document.getElementById("firstName").value = student.firstName;
+    if (student.lastName) document.getElementById("lastName").value = student.lastName;
+    if (student.birthDate) {
+        const birthDate = new Date(student.birthDate);
+        const formatted = birthDate.toISOString().split("T")[0];
+        document.getElementById("birthDate").value = formatted;
+    }
+
+    document.getElementById("profile-edit-form").addEventListener("submit", async function (e) {
         e.preventDefault();
-        const updatedStudent = {
-            firstName: document.getElementById("firstName").value,
-            lastName: document.getElementById("lastName").value,
-            group: student.group
-        };
-        const res = await fetch(`/user/update-student/${user.id}`, {
+
+        const firstName = document.getElementById("firstName").value || student.firstName;
+        const lastName = document.getElementById("lastName").value || student.lastName;
+        const birthDate = document.getElementById("birthDate").value || student.birthDate;
+
+        const updatedStudent = { firstName, lastName, birthDate };
+
+        const res = await fetch(`/user/update-student/${userId}`, {
             method: "PUT",
             headers: {
                 "Authorization": "Bearer " + token,
@@ -44,6 +60,7 @@ window.onload = async function () {
             },
             body: JSON.stringify(updatedStudent)
         });
+
         const msg = document.getElementById("response-message");
         if (res.ok) {
             msg.style.color = "green";

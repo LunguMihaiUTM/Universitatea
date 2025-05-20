@@ -13,5 +13,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByUser(User user);
     Optional<Student> findByFirstNameAndLastName(String firstName, String lastName);
     List<Student> findByGroupId(Long groupId);
-
+    Optional<Student> findByUserId(Long userId);
 }
