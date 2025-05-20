@@ -3,27 +3,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("edit-student-form");
     const message = document.getElementById("response-message");
     const groupSelect = document.getElementById("groupSelect");
-    const userIdInput = document.getElementById("userId");
     let allGroups = [];
 
-    // Logout logic
+    // Logout
     logoutBtn?.addEventListener("click", () => {
         localStorage.removeItem("jwt");
         window.location.href = "/login.html";
     });
 
-    // Mapare hardcodată groupCode -> id
-    const groupIdMap = {
-        "SI-221": 1,
-        "TI-222": 2,
-        "CI-211": 3,
-        "EA-211": 4,
-        "IA-222": 5,
-        "Default group": 6,
-        "TI-221": 7
-    };
-
-    // Încarcă grupele
+    // Încarcă grupele disponibile
     fetch("/groups/all")
         .then(res => res.json())
         .then(groups => {
@@ -37,30 +25,27 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(() => showMessage("Eroare la încărcarea grupelor", false));
 
-    // Form submit
+    // Submit form
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const token = localStorage.getItem("jwt");
-
-        const userId = userIdInput.value.trim();
+        const userId = document.getElementById("userId").value.trim();
         const firstName = document.getElementById("firstName").value.trim();
         const lastName = document.getElementById("lastName").value.trim();
         const birthDate = document.getElementById("birthDate").value;
-        const groupCode = groupSelect.value;
+        const selectedGroupCode = groupSelect.value;
 
-        if (!userId || !firstName || !lastName || !birthDate || !groupCode) {
+        if (!userId || !firstName || !lastName || !birthDate || !selectedGroupCode) {
             showMessage("Completați toate câmpurile!", false);
             return;
         }
 
-        const selectedGroup = allGroups.find(g => g.groupCode === groupCode);
+        const selectedGroup = allGroups.find(g => g.groupCode === selectedGroupCode);
         if (!selectedGroup) {
-            showMessage("Grupa selectată este invalidă!", false);
+            showMessage("Grupa selectată nu este validă!", false);
             return;
         }
-
-        const groupId = groupIdMap[groupCode] || 0;
 
         const payload = {
             id: 0,
@@ -68,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
             lastName,
             birthDate,
             group: {
-                id: groupId,
+                id: 0,
                 groupCode: selectedGroup.groupCode,
                 year: selectedGroup.year,
                 specialization: selectedGroup.specialization,
@@ -79,11 +64,10 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             user: {
                 id: parseInt(userId),
-                email: "",
-                password: "",
+                email: "", // Nu este necesar pentru update
+                password: "", // Nu este necesar pentru update
                 role: "STUDENT",
                 username: "",
-                authorities: [],
                 enabled: true,
                 accountNonLocked: true,
                 accountNonExpired: true,
@@ -101,16 +85,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) throw new Error("Update eșuat");
-            showMessage("Student actualizat cu succes.", true);
+            if (!response.ok) throw new Error("Eșec la actualizare");
+
+            showMessage("Student actualizat cu succes!", true);
         } catch (err) {
             console.error(err);
-            showMessage("Eroare la actualizare.", false);
+            showMessage("Eroare la actualizarea studentului.", false);
         }
     });
 
-    function showMessage(msg, success) {
-        message.textContent = msg;
+    function showMessage(text, success) {
+        message.textContent = text;
         message.style.color = success ? "green" : "red";
     }
 });

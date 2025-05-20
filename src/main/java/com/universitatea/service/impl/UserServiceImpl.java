@@ -46,10 +46,18 @@ public class UserServiceImpl implements UserService {
         student.setLastName(studentInput.getLastName());
         student.setBirthDate(studentInput.getBirthDate());
 
+        if (studentInput.getGroup() != null) {
+            Group inputGroup = studentInput.getGroup();
+            Group group = groupRepository.findByGroupCode(inputGroup.getGroupCode())
+                    .orElseThrow(() -> new ResourceNotFoundException("Group not found for code: " + inputGroup.getGroupCode()));
+            student.setGroup(group);
+        }
+
         studentRepository.save(student);
 
         return mapToStudentDTO(student);
     }
+
 
 
     @Override
