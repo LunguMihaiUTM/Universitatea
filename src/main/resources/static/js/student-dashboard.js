@@ -84,10 +84,6 @@ async function loadDashboard() {
                         col.appendChild(box);
                     });
 
-
-
-
-
                 grid.appendChild(col);
             });
         } else {
@@ -98,4 +94,15 @@ async function loadDashboard() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadDashboard);
+// ⚙️ Adaugă funcționalitatea pentru logout
+document.addEventListener("DOMContentLoaded", function () {
+    loadDashboard();
+
+    const logoutButton = document.getElementById("logout-button");
+    if (logoutButton) {
+        logoutButton.addEventListener("click", function () {
+            localStorage.removeItem("jwt");
+            window.location.href = "/login.html";
+        });
+    }
+});
