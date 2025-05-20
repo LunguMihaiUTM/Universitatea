@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adăugare pereche orar</title>
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="/img/utm-logo.png" alt="UTM Logo" class="utm-logo">
+        </div>
+        <ul class="nav">
+            <li><a href="/admin-dashboard.html"><i class="fas fa-home"></i> General</a></li>
+            <li><a href="/admin-add-schedule.html"><i class="fas fa-calendar-plus"></i> Adăugare pereche orar</a></li>
+            <li><a href="/admin-structure.html"><i class="fas fa-sitemap"></i> Structura facultate</a></li>
+            <li><a href="/admin-create-group.html"><i class="fas fa-users"></i> Creare grupă</a></li>
+            <li><a href="/admin-student-grades.html"><i class="fas fa-clipboard-list"></i> Note studenți</a></li>
+            <li><a href="/admin-equivalence.html"><i class="fas fa-exchange-alt"></i> Echivalare studenți</a></li>
+            <li><a href="/admin-edit-student.html"><i class="fas fa-user-edit"></i> Editare student</a></li>
+            <li><a href="/admin-edit-professor.html"><i class="fas fa-chalkboard-teacher"></i> Editare profesor</a></li>
+        </ul>
+
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-content">
+                <h2>Adaugă pereche în orar</h2>
+                <button id="logout-button" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <section class="form-section">
+            <form id="schedule-form" class="schedule-form">
+                <label for="courseId">Curs ID:</label>
+                <input type="number" id="courseId" name="courseId" required>
+
+                <label for="groupId">Grupă ID:</label>
+                <input type="number" id="groupId" name="groupId" required>
+
+                <label for="dayOfWeek">Ziua săptămânii:</label>
+                <select id="dayOfWeek" name="dayOfWeek" required>
+                    <option value="">Selectează...</option>
+                    <option value="Luni">Luni</option>
+                    <option value="Marți">Marți</option>
+                    <option value="Miercuri">Miercuri</option>
+                    <option value="Joi">Joi</option>
+                    <option value="Vineri">Vineri</option>
+                    <option value="Sâmbătă">Sâmbătă</option>
+                    <option value="Duminică">Duminică</option>
+                </select>
+
+                <label for="startTime">Timp începere:</label>
+                <input type="time" id="startTime" name="startTime" required>
+
+                <label for="endTime">Timp sfârșit:</label>
+                <input type="time" id="endTime" name="endTime" required>
+
+                <label for="lectureType">Tipul lecției:</label>
+                <select id="lectureType" name="lectureType" required>
+                    <option value="COURSE">COURSE</option>
+                    <option value="SEMINAR">SEMINAR</option>
+                    <option value="LAB">LAB</option>
+                </select>
+
+                <button type="submit">Adaugă în orar</button>
+                <p id="response-message"></p>
+            </form>
+        </section>
+    </main>
+</div>
+<script src="/js/admin-add-schedule.js"></script>
+</body>
+</html>

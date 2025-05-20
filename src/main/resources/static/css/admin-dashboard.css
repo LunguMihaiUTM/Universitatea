@@ -1,0 +1,349 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f6fa;
+    color: #2f3640;
+}
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+.sidebar {
+    width: 240px;
+    background-color: #2d3436;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.brand {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+.brand img.utm-logo {
+    width: 140px;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+.sidebar .nav {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+.sidebar .nav li {
+    padding: 12px 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sidebar .nav li:hover {
+    background-color: #636e72;
+}
+.sidebar .nav li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.sidebar .nav li a.active {
+    background-color: #e7a42b;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+.topbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+.logout-button {
+    background-color: #e7a42b;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.logout-button:hover {
+    background-color: #edac34;
+}
+.calendar {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.week-view {
+    margin-top: 20px;
+    min-height: 100px;
+}
+
+.form-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 30px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.schedule-form label {
+    font-weight: bold;
+    color: #2f3640;
+}
+
+.schedule-form input,
+.schedule-form select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.schedule-form button {
+    background-color: #e7a42b;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.schedule-form button:hover {
+    background-color: #edac34;
+}
+
+#response-message {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.structure-container {
+    margin-top: 30px;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.structure-node {
+    padding-left: 20px;
+    margin-bottom: 10px;
+    border-left: 2px solid #ccc;
+    margin-left: 10px;
+}
+
+.structure-node strong {
+    color: #2f3640;
+}
+
+.structure-node::before {
+    content: "↳";
+    padding-right: 6px;
+    color: #e7a42b;
+}
+
+.export-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#export-pdf {
+    padding: 10px 20px;
+    background-color: #e7a42b;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#export-pdf:hover {
+    background-color: #edac34;
+}
+
+.grades-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 16px;
+}
+
+.grades-table th,
+.grades-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dfe6e9;
+}
+
+.grades-table th {
+    background-color: #f0f4f8;
+    color: #2d3436;
+}
+
+.grades-table td {
+    background-color: #fafafa;
+    color: #2d3436;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-container label {
+    font-weight: bold;
+    color: #2f3640;
+}
+
+.filter-container select,
+.filter-container input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.equivalence-section {
+    margin-top: 30px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.action-button {
+    background-color: #e7a42b;
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.action-button:hover {
+    background-color: #f0b236;
+}
+
+.import-result {
+    margin-top: 25px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+.import-result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.import-result th, .import-result td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e6e6e6;
+    text-align: left;
+}
+
+.import-result th {
+    background-color: #f4f4f4;
+}
+
+.profile-edit-form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 30px auto;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.profile-edit-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2f3640;
+}
+
+.profile-edit-form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.profile-edit-form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #e7a42b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.profile-edit-form-container button:hover {
+    background-color: #edac34;
+}
+
+#response-message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.profile-edit-form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+

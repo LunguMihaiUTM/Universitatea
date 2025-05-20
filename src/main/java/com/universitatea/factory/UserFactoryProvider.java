@@ -9,6 +9,8 @@ public class UserFactoryProvider {
             return new StudentFactory();
         } else if(role == Role.PROFESSOR) {
             return new ProfessorFactory();
+        } else if(role == Role.ADMIN) {
+            return new AdminFactory();
         }
 
         return null;
