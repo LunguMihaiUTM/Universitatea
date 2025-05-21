@@ -9,10 +9,12 @@ import com.universitatea.entity.User;
 import com.universitatea.exception.ResourceNotFoundException;
 import com.universitatea.repository.StudentRepository;
 import com.universitatea.repository.UserRepository;
+import com.universitatea.service.impl.StudentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class StudentController {
     private final StudentDecoratorService studentDecoratorService;
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
+    private final StudentServiceImpl studentService;
 
     @GetMapping("/{id}/grades")
     public Map<String, BigDecimal> getAllGrades(@PathVariable Long id) {
@@ -72,5 +75,16 @@ public class StudentController {
                 .email(student.getUser().getEmail())
                 .build();
     }
+
+    @GetMapping("by-professor")
+    public List<StudentDTO> getStudentsByProfessorId(@RequestParam Long professorId) {
+        return studentService.getStudentsByProfessorId(professorId);
+    }
+
+    @GetMapping("/enroll")
+    public String enrollStudentToCourse(Long studentId, Long courseId){
+        return studentService.enrollStudentToCourse(studentId, courseId);
+    }
+
 
 }

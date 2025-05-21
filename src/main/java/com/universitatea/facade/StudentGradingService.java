@@ -29,15 +29,21 @@ public class StudentGradingService {
         Optional<StudentCourse> existing = studentCourseRepository.findByStudentAndCourse(student, course);
 
         if (existing.isPresent()) {
-            return "Grade already exists for this student and course.";
+            existing.get().setGrade(grade);
+            existing.get().setExamDate(examDate);
+            existing.get().setStudent(student);
+            existing.get().setCourse(course);
+            studentCourseRepository.save(existing.get());
+        } else {
+            StudentCourse studentCourse = new StudentCourse();
+            studentCourse.setStudent(student);
+            studentCourse.setCourse(course);
+            studentCourse.setGrade(grade);
+            studentCourse.setExamDate(examDate);
+            studentCourseRepository.save(studentCourse);
         }
 
-        StudentCourse studentCourse = new StudentCourse();
-        studentCourse.setStudent(student);
-        studentCourse.setCourse(course);
-        studentCourse.setGrade(grade);
-        studentCourse.setExamDate(examDate);
-        studentCourseRepository.save(studentCourse);
+
 
         //Observer, notify the observer that grade was assigned
         //gradeObservers.forEach(o -> o.onGradeAssigned(student, course, grade));
