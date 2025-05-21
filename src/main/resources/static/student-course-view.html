@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Editare profil student</title>
-    <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/css/student-dashboard.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursurile mele</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/student-dashboard.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
@@ -18,33 +18,24 @@
             <li><a href="/student-dashboard.html"><i class="fas fa-home"></i> General</a></li>
             <li><a href="/student-details.html"><i class="fas fa-user"></i> Detalii student</a></li>
             <li><a href="/student-grades.html"><i class="fas fa-clipboard-list"></i> Note</a></li>
-            <li><a href="/student-exam-release.html" class="active"><i class="fas fa-check-circle"></i> Performanță înaltă</a></li>
+            <li><a href="/student-exam-release.html"><i class="fas fa-check-circle"></i> Performanță înaltă</a></li>
             <li><a href="/student-exam-denied.html"><i class="fas fa-times-circle"></i> Note insuficiente</a></li>
             <li><a href="/student-profile-edit.html"><i class="fas fa-edit"></i> Editare profil</a></li>
             <li><a href="/student-course-enroll.html"><i class="fas fa-book-open"></i> Înscriere la curs</a></li>
-            <li><a href="/student-course-view.html"><i class="fas fa-book"></i> Vizualizare cursuri</a></li> <!-- Adăugat -->
+            <li><a href="/student-course-view.html" class="active"><i class="fas fa-book"></i> Vizualizare cursuri</a></li>
         </ul>
-
     </aside>
 
     <main class="content">
         <section class="calendar">
             <div class="calendar-header">
-                <h3>Editare profil</h3>
+                <h3>Cursurile la care ești înscris</h3>
             </div>
-            <div class="profile-edit-form-container">
-                <form id="profile-edit-form">
-                    <label>Nume: <input type="text" id="lastName" /></label><br />
-                    <label>Prenume: <input type="text" id="firstName" /></label><br />
-                    <label>Data nașterii: <input type="date" id="birthDate" /></label><br />
-                    <button type="submit">Salvează</button>
-                </form>
-                <p id="response-message"></p>
-                </form>
+            <div class="course-view-container" id="course-container">
             </div>
         </section>
     </main>
 </div>
-<script src="/js/student-profile-edit.js"></script>
+<script src="/js/student-course-view.js"></script>
 </body>
 </html>

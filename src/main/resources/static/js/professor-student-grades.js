@@ -39,30 +39,37 @@ function renderGrades(grades) {
     const tbody = document.getElementById("grades-body");
     tbody.innerHTML = "";
 
-    grades.forEach(entry => {
-        const tr = document.createElement("tr");
+    grades
+        .filter(entry => entry.grade !== null && entry.examDate !== null)
+        .forEach(entry => {
+            const tr = document.createElement("tr");
 
-        const studentName = `${entry.student.firstName} ${entry.student.lastName}`;
-        const email = entry.student.email;
-        const course = entry.course.title;
-        const credits = entry.course.credits;
-        const type = entry.course.type;
-        const grade = entry.grade;
-        const date = entry.examDate;
+            const studentName = `${entry.student.firstName} ${entry.student.lastName}`;
+            const email = entry.student.email;
+            const course = entry.course.title;
+            const credits = entry.course.credits;
+            const type = entry.course.type;
+            const grade = entry.grade;
+            const date = entry.examDate;
 
-        tr.innerHTML = `
-            <td>${studentName}</td>
-            <td>${email}</td>
-            <td>${course}</td>
-            <td>${credits}</td>
-            <td>${type}</td>
-            <td>${grade}</td>
-            <td>${date}</td>
-        `;
+            tr.innerHTML = `
+                <td>${studentName}</td>
+                <td>${email}</td>
+                <td>${course}</td>
+                <td>${credits}</td>
+                <td>${type}</td>
+                <td>${grade}</td>
+                <td>${date}</td>
+            `;
 
-        tbody.appendChild(tr);
-    });
+            tbody.appendChild(tr);
+        });
+
+    if (tbody.innerHTML === "") {
+        tbody.innerHTML = "<tr><td colspan='7'>Nu există note sau date de examen disponibile.</td></tr>";
+    }
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchAndRenderGrades();

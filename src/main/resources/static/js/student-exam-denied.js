@@ -30,35 +30,31 @@ window.onload = async function () {
             headers: { "Authorization": "Bearer " + token }
         });
 
-        if (!studentRes.ok) throw new Error("Student not found");
+        if (!studentRes.ok) throw new Error("Studentul nu a fost găsit");
         const student = await studentRes.json();
+        const studentId = student.id;
 
-        // 🔁 Obține notele prin Strategy Pattern
-        const gradesRes = await fetch(`/grades/get-grades`, {
+        // ✅ Obține toate notele
+        const gradesRes = await fetch(`/students/${studentId}/grades`, {
             headers: { "Authorization": "Bearer " + token }
         });
 
-        if (!gradesRes.ok) throw new Error("Grades not found");
-        const studentCourses = await gradesRes.json();
+        if (!gradesRes.ok) throw new Error("Notele nu au fost găsite");
+        const grades = await gradesRes.json();
 
-        // Creează mapă disciplină => notă
-        const gradesMap = {};
-        for (const entry of studentCourses) {
-            const courseTitle = entry.course.title;
-            const grade = entry.grade;
-            gradesMap[courseTitle] = grade;
-        }
-
-        // ❌ Filtrare: discipline neadmise (nota < 5)
-        const deniedEntries = Object.entries(gradesMap)
-            .filter(([_, grade]) => grade < 5)
+        // ❌ Filtrare: nota < 5 și nota > 0
+        const deniedEntries = Object.entries(grades)
+            .filter(([_, grade]) => {
+                const value = parseFloat(grade);
+                return value < 5 && value > 0;
+            })
             .sort(([a], [b]) => a.localeCompare(b));
 
         const tbody = document.getElementById("exam-denied-body");
         tbody.innerHTML = "";
 
         if (deniedEntries.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='2'>Toate disciplinele sunt promovate!</td></tr>";
+            tbody.innerHTML = "<tr><td colspan='2'>Toate disciplinele sunt promovate.</td></tr>";
             return;
         }
 
@@ -69,7 +65,7 @@ window.onload = async function () {
             subjectCell.textContent = subject;
 
             const gradeCell = document.createElement("td");
-            gradeCell.textContent = grade.toFixed(2);
+            gradeCell.textContent = parseFloat(grade).toFixed(2);
 
             row.appendChild(subjectCell);
             row.appendChild(gradeCell);

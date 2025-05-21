@@ -30,46 +30,37 @@ window.onload = async function () {
             headers: { "Authorization": "Bearer " + token }
         });
 
-        if (!studentRes.ok) throw new Error("Student not found");
+        if (!studentRes.ok) throw new Error("Studentul nu a fost găsit");
         const student = await studentRes.json();
 
-        // 🔁 Obține notele prin Strategy Pattern
-        const gradesRes = await fetch(`/grades/get-grades`, {
+        const studentId = student.id;
+
+        // ✅ Folosește noul endpoint pentru note ≥ 9
+        const gradesRes = await fetch(`/students/${studentId}/grades/filtered?threshold=9`, {
             headers: { "Authorization": "Bearer " + token }
         });
 
-        if (!gradesRes.ok) throw new Error("Grades not found");
-        const studentCourses = await gradesRes.json();
+        if (!gradesRes.ok) throw new Error("Notele nu au fost găsite");
+        const grades = await gradesRes.json();
 
-        // Construiește mapă cu disciplina => nota
-        const gradesMap = {};
-        for (const entry of studentCourses) {
-            const courseTitle = entry.course.title;
-            const grade = entry.grade;
-            gradesMap[courseTitle] = grade;
-        }
-
-        // ✅ Filtrare: doar disciplinele cu nota >= 9
-        const filteredEntries = Object.entries(gradesMap)
-            .filter(([_, grade]) => grade >= 9)
-            .sort(([a], [b]) => a.localeCompare(b));
+        const entries = Object.entries(grades).sort(([a], [b]) => a.localeCompare(b));
 
         const tbody = document.getElementById("exam-release-body");
         tbody.innerHTML = "";
 
-        if (filteredEntries.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='2'>Nu există discipline eligibile pentru eliberare.</td></tr>";
+        if (entries.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='2'>Nu există discipline cu nota ≥ 9.</td></tr>";
             return;
         }
 
-        for (const [subject, grade] of filteredEntries) {
+        for (const [subject, grade] of entries) {
             const row = document.createElement("tr");
 
             const subjectCell = document.createElement("td");
             subjectCell.textContent = subject;
 
             const gradeCell = document.createElement("td");
-            gradeCell.textContent = grade.toFixed(2);
+            gradeCell.textContent = parseFloat(grade).toFixed(2);
 
             row.appendChild(subjectCell);
             row.appendChild(gradeCell);

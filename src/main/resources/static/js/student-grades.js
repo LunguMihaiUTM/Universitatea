@@ -46,6 +46,13 @@ window.onload = async function () {
         for (const entry of studentCourses) {
             const courseTitle = entry.course.title;
             const grade = entry.grade;
+            const examDate = entry.examDate;
+
+            // 🧹 Exclude discipline fără notă sau fără dată examen
+            if (grade === null || grade === undefined || examDate === null || examDate === undefined) {
+                continue;
+            }
+
             gradesMap[courseTitle] = grade;
         }
 
