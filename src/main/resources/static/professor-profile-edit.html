@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editare profil profesor</title>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/professor-dashboard.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="/img/utm-logo.png" alt="UTM Logo" class="utm-logo">
+        </div>
+        <ul class="nav">
+            <li><a href="/professor-dashboard.html"><i class="fas fa-home"></i> General</a></li>
+            <li><a href="/professor-profile-edit.html"><i class="fas fa-user-edit"></i> Editare profil</a></li>
+            <li><a href="/professor-grade-assign.html"><i class="fas fa-pen"></i> Atribuire notă</a></li>
+            <li><a href="/professor-student-view.html"><i class="fas fa-users"></i> Vizualizare studenți</a></li>
+            <li><a href="/professor-student-grades.html"><i class="fas fa-clipboard-list"></i> Note studenți</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-content">
+                <h2>Bine ai venit, <span id="professor-name">Profesor</span>!</h2>
+                <button id="logout-button" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <section class="profile-edit-form-container">
+            <form id="professor-edit-form">
+                <label for="firstName">Prenume:</label>
+                <input type="text" id="firstName" required />
+
+                <label for="lastName">Nume:</label>
+                <input type="text" id="lastName" required />
+
+                <button type="submit">Salvează modificările</button>
+                <p id="response-message"></p>
+            </form>
+        </section>
+    </main>
+</div>
+<script src="/js/professor-profile-edit.js"></script>
+</body>
+</html>
