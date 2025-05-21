@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Note Studenți</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/professor-dashboard.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<div class="dashboard">
+    <aside class="sidebar">
+        <div class="brand">
+            <img src="/img/utm-logo.png" alt="UTM Logo" class="utm-logo">
+        </div>
+        <ul class="nav">
+            <li><a href="/professor-dashboard.html"><i class="fas fa-home"></i> General</a></li>
+            <li><a href="/professor-profile-edit.html"><i class="fas fa-user-edit"></i> Editare profil</a></li>
+            <li><a href="/professor-grade-assign.html"><i class="fas fa-pen"></i> Atribuire notă</a></li>
+            <li><a href="/professor-student-list.html"><i class="fas fa-users"></i> Vizualizare studenți</a></li>
+            <li class="active"><a href="/professor-student-grades.html"><i class="fas fa-clipboard-list"></i> Note studenți</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <div class="topbar-content">
+                <h2>Bine ai venit, <span id="professor-name">Profesor</span>!</h2>
+                <button id="logout-button" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <section class="grades-panel">
+            <div class="grades-header">
+                <h3>Note studenți</h3>
+                <span>Vizualizați toate notele acordate</span>
+            </div>
+            <div class="grades-table-container">
+                <table class="grades-table">
+                    <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th>Disciplina</th>
+                        <th>Credite</th>
+                        <th>Tip</th>
+                        <th>Notă</th>
+                        <th>Data examenului</th>
+                    </tr>
+                    </thead>
+                    <tbody id="grades-body">
+                    <!-- Rândurile vor fi generate dinamic -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="/js/professor-dashboard.js"></script>
+<script src="/js/professor-student-grades.js"></script>
+</body>
+</html>

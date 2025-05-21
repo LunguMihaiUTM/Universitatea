@@ -164,3 +164,44 @@ body {
     font-weight: bold;
 }
 
+.grades-panel {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.grades-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.grades-table-container {
+    overflow-x: auto;
+}
+
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.grades-table th,
+.grades-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.grades-table th {
+    background-color: #f1f2f6;
+    color: #2f3640;
+    font-weight: bold;
+}
+
+.grades-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

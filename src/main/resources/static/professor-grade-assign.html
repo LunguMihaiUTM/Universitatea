@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Editare profil profesor</title>
-    <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/css/professor-dashboard.css"/>
+    <meta charset="UTF-8">
+    <title>Atribuire notă</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/professor-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
@@ -26,7 +25,7 @@
     <main class="content">
         <header class="topbar">
             <div class="topbar-content">
-                <h2>Bine ai venit, <span id="professor-name">Profesor</span>!</h2>
+                <h2>Atribuire notă</h2>
                 <button id="logout-button" class="logout-button">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
@@ -34,19 +33,30 @@
         </header>
 
         <section class="profile-edit-form-container">
-            <form id="professor-edit-form">
-                <label for="firstName">Prenume:</label>
-                <input type="text" id="firstName" required />
+            <form id="assign-grade-form">
+                <label for="studentSelect">Selectează student:</label>
+                <select id="studentSelect" required>
+                    <option value="">-- Alege un student --</option>
+                </select>
 
-                <label for="lastName">Nume:</label>
-                <input type="text" id="lastName" required />
+                <label for="courseSelect">Selectează curs:</label>
+                <select id="courseSelect" required>
+                    <option value="">-- Alege un curs --</option>
+                </select>
 
-                <button type="submit">Salvează modificările</button>
+                <label for="grade">Notă:</label>
+                <input type="number" step="0.1" id="grade" required>
+
+                <label for="examDate">Data examenului:</label>
+                <input type="date" id="examDate" required>
+
+                <button type="submit">Atribuie nota</button>
                 <p id="response-message"></p>
             </form>
         </section>
     </main>
 </div>
-<script src="/js/professor-profile-edit.js"></script>
+
+<script src="/js/professor-grade-assign.js"></script>
 </body>
 </html>
