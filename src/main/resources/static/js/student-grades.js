@@ -25,7 +25,7 @@ window.onload = async function () {
     }
 
     try {
-        // 🔁 Obține studentul direct după userId
+        // 🔁 Obține studentul după userId
         const studentRes = await fetch(`/students/by-user-id/${userId}`, {
             headers: { "Authorization": "Bearer " + token }
         });
@@ -33,14 +33,23 @@ window.onload = async function () {
         if (!studentRes.ok) throw new Error("Student not found");
         const student = await studentRes.json();
 
-        const gradesRes = await fetch(`/students/${student.id}/grades`, {
+        // 🔁 Obține notele prin Strategy Pattern
+        const gradesRes = await fetch(`/grades/get-grades`, {
             headers: { "Authorization": "Bearer " + token }
         });
 
         if (!gradesRes.ok) throw new Error("Grades not found");
-        const grades = await gradesRes.json();
+        const studentCourses = await gradesRes.json();
 
-        const sortedEntries = Object.entries(grades).sort(([a], [b]) => a.localeCompare(b));
+        // Construiește mapă cu disciplina => nota
+        const gradesMap = {};
+        for (const entry of studentCourses) {
+            const courseTitle = entry.course.title;
+            const grade = entry.grade;
+            gradesMap[courseTitle] = grade;
+        }
+
+        const sortedEntries = Object.entries(gradesMap).sort(([a], [b]) => a.localeCompare(b));
 
         const tbody = document.getElementById("grades-body");
         tbody.innerHTML = "";

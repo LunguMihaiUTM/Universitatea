@@ -33,16 +33,24 @@ window.onload = async function () {
         if (!studentRes.ok) throw new Error("Student not found");
         const student = await studentRes.json();
 
-        // 🔁 Obține notele studentului
-        const gradesRes = await fetch(`/students/${student.id}/grades`, {
+        // 🔁 Obține notele prin Strategy Pattern
+        const gradesRes = await fetch(`/grades/get-grades`, {
             headers: { "Authorization": "Bearer " + token }
         });
 
         if (!gradesRes.ok) throw new Error("Grades not found");
-        const grades = await gradesRes.json();
+        const studentCourses = await gradesRes.json();
 
-        // ✅ FILTRARE: doar disciplinele cu nota >= 9
-        const filteredEntries = Object.entries(grades)
+        // Construiește mapă cu disciplina => nota
+        const gradesMap = {};
+        for (const entry of studentCourses) {
+            const courseTitle = entry.course.title;
+            const grade = entry.grade;
+            gradesMap[courseTitle] = grade;
+        }
+
+        // ✅ Filtrare: doar disciplinele cu nota >= 9
+        const filteredEntries = Object.entries(gradesMap)
             .filter(([_, grade]) => grade >= 9)
             .sort(([a], [b]) => a.localeCompare(b));
 
