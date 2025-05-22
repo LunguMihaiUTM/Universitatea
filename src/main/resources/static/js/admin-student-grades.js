@@ -28,7 +28,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             if (!response.ok) throw new Error("Eroare la încărcarea notelor");
 
-            allGrades = await response.json();
+            const rawGrades = await response.json();
+
+            // 🔍 Filtrăm notele invalide (null, undefined, 0)
+            allGrades = rawGrades.filter(entry =>
+                entry.grade !== null &&
+                entry.grade !== undefined &&
+                entry.grade !== 0
+            );
+
             renderTable(allGrades);
         } catch (error) {
             console.error("Eroare:", error);
@@ -46,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         data.forEach(entry => {
             const studentName = `${entry.student.firstName} ${entry.student.lastName}`;
             const course = entry.course?.title || "N/A";
-            const grade = entry.grade ?? "-";
+            const grade = entry.grade;
             const date = entry.examDate || "-";
 
             const row = document.createElement("tr");
