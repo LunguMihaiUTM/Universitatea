@@ -46,7 +46,7 @@ public class StudentGradingService {
 
 
         //Observer, notify the observer that grade was assigned
-        //gradeObservers.forEach(o -> o.onGradeAssigned(student, course, grade));
+        gradeObservers.forEach(o -> o.onGradeAssigned(student, course, grade));
 
         return "Grade assigned successfully.";
     }
